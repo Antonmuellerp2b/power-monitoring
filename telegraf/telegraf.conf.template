@@ -232,13 +232,13 @@ def apply(metric):
                "current_phase_1","current_phase_2","current_phase_3",
                "power_factor_phase_1","power_factor_phase_2","power_factor_phase_3","power_factor_total",
                "frequency"]
-  name_override = "meter_avg1"
+  name_override = "meter_10sec_avg"
 
 ##################################################
 # Rename mean fields -> *_10sec_avg
 ##################################################
 [[processors.rename]]
-  namepass = ["meter_avg1"]
+  namepass = ["meter_10sec_avg"]
   [[processors.rename.replace]]
     field = "active_power_total_mean"
     dest = "active_power_total_10sec_avg"
