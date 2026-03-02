@@ -22,7 +22,7 @@ groups:
                 from(bucket: "{{INFLUXDB_BUCKET}}")
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
-                    r._measurement == "meter_avg2" and
+                    r._measurement == "meter_15min_avg" and
                     r._field == "active_power_phase_1_15min_avg"
                   )
                   |> last()
@@ -36,7 +36,7 @@ groups:
                 from(bucket: "{{INFLUXDB_BUCKET}}")
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
-                    r._measurement == "meter_avg2" and
+                    r._measurement == "meter_15min_avg" and
                     r._field == "active_power_phase_2_15min_avg"
                   )
                   |> last()
@@ -50,7 +50,7 @@ groups:
                 from(bucket: "{{INFLUXDB_BUCKET}}")
                   |> range(start: -30m)
                   |> filter(fn: (r) =>
-                    r._measurement == "meter_avg2" and
+                    r._measurement == "meter_15min_avg" and
                     r._field == "active_power_phase_3_15min_avg"
                   )
                   |> last()

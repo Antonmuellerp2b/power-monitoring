@@ -102,7 +102,7 @@
 ##################################################
 [[inputs.modbus]]
   name = "janitza_umg96pa"
-  name_override = "meter_avg2"
+  name_override = "meter_15min_avg"
   slave_id = 1
   timeout = "5s"
   interval = "60s"
@@ -216,7 +216,7 @@ def apply(metric):
 
 ##################################################
 # Aggregator: 10s average (AVG1) - values are aggregated by telegraf. 
-# 10s averages are shifted by 5s due to 5s source intervals
+# 10s averages are shifted by 5s, they represent the average of the two previous values
 ##################################################
 
 [[aggregators.basicstats]]
