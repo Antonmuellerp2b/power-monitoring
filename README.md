@@ -26,7 +26,7 @@ Automated collection and storage of measurement data from a PAC2200 device into 
 
 - Rename default.env to .env (Will be ignored by git afterwards due to .gitignore)
 - Set SITE_ID (mandatory for cloud usage and to determine which site the e-mail alert is being fired from)
-- Set METER_TYPE to your local electric meter type, e.g. PAC2200 or Janitza
+- Set METER_TYPE to your local electric meter type, e.g. pac2200 or janitza
 - Set METER_URL to your local electric meter URL
 - Change all other login credentials in .env
 - For cloud usage, set CLOUD_INFLUX_HOST to your cloud IP and set other cloud credentials
