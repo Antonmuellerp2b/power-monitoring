@@ -1,0 +1,92 @@
+# power_imbalance_rule.yaml.template - Template for Grafana alert rule (phase power imbalance)
+# All variables must be replaced by the render script before use
+
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: Imbalance
+    folder: _alerts
+    interval: 10s
+    rules:
+      - uid: phase_power_imbalance
+        title: Phase Power Imbalance
+        condition: Imbalance
+        data:
+          - refId: A
+            datasourceUid: "{{DATASOURCE_UID}}"
+            relativeTimeRange:
+              from: 1800  # 30 minutes
+              to: 0
+            model:
+              query: |
+                from(bucket: "{{INFLUXDB_BUCKET}}")
+                  |> range(start: -30m)
+                  |> filter(fn: (r) =>
+                    r._measurement == "meter_15min_avg" and
+                    r._field == "active_power_phase_1_15min_avg"
+                  )
+                  |> last()
+          - refId: B
+            datasourceUid: "{{DATASOURCE_UID}}"
+            relativeTimeRange:
+              from: 1800
+              to: 0
+            model:
+              query: |
+                from(bucket: "{{INFLUXDB_BUCKET}}")
+                  |> range(start: -30m)
+                  |> filter(fn: (r) =>
+                    r._measurement == "meter_15min_avg" and
+                    r._field == "active_power_phase_2_15min_avg"
+                  )
+                  |> last()
+          - refId: C
+            datasourceUid: "{{DATASOURCE_UID}}"
+            relativeTimeRange:
+              from: 1800
+              to: 0
+            model:
+              query: |
+                from(bucket: "{{INFLUXDB_BUCKET}}")
+                  |> range(start: -30m)
+                  |> filter(fn: (r) =>
+                    r._measurement == "meter_15min_avg" and
+                    r._field == "active_power_phase_3_15min_avg"
+                  )
+                  |> last()
+          - refId: Phase1
+            datasourceUid: __expr__
+            model:
+              expression: A
+              reducer: last
+              type: reduce
+          - refId: Phase2
+            datasourceUid: __expr__
+            model:
+              expression: B
+              reducer: last
+              type: reduce
+          - refId: Phase3
+            datasourceUid: __expr__
+            model:
+              expression: C
+              reducer: last
+              type: reduce
+          - refId: Imbalance
+            datasourceUid: __expr__
+            model:
+              expression: |-
+                (
+                  ($Phase1 / $Phase2 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) || ($Phase2 / $Phase1 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) ||
+                  ($Phase1 / $Phase3 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) || ($Phase3 / $Phase1 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) ||
+                  ($Phase2 / $Phase3 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}}) || ($Phase3 / $Phase2 > {{PHASE_IMBALANCE_RATIO_THRESHOLD}})
+                ) && ($Phase1 >= {{PHASE_IMBALANCE_MIN_KW}} && $Phase2 >= {{PHASE_IMBALANCE_MIN_KW}} && $Phase3 >= {{PHASE_IMBALANCE_MIN_KW}})
+              reducer: last
+              type: math
+        noDataState: NoData
+        execErrState: Error
+        annotations:
+          summary: "⚠️ Phase power imbalance detected"
+          description: "Alert triggers if one phase exceeds others by PHASE_IMBALANCE_RATIO_THRESHOLD and all phases >= minimum."
+        notification_settings:
+          receiver: grafana-default-email
