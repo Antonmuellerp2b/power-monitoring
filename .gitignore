@@ -14,6 +14,7 @@ influxdb-init/
 influxdb-init.sh
 
 # Telegraf config
+!telegraf
 telegraf/telegraf.conf
 
 # Ignore all Grafana files except provisioning and dashboards
