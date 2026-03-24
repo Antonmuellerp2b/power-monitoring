@@ -1,6 +1,8 @@
 # .gitignore for PAC2200 Monitoring
 # Ignore system files, secrets, generated configs, and data volumes
 
+plan-dockerBasedConfigRendering.prompt.md
+
 # macOS system files
 .DS_Store
 

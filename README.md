@@ -25,12 +25,13 @@ Automated collection and storage of measurement data from a PAC2200 device into 
 ## ⚡️ BEFORE STARTING FOR THE FIRST TIME
 
 - Rename default.env to .env (Will be ignored by git afterwards due to .gitignore)
-- For e-mail alerts, set GF_SMTP e-mail + password in .env file and set GF_SMTP_ENABLED=true
-- Set ALERT_EMAIL_RECIPIENT
 - Set SITE_ID (mandatory for cloud usage and to determine which site the e-mail alert is being fired from)
-- Set METER_URL to your local electric meter, e.g. PAC2200
+- Set METER_TYPE to your local electric meter type, e.g. PAC2200 or Janitza
+- Set METER_URL to your local electric meter URL
 - Change all other login credentials in .env
 - For cloud usage, set CLOUD_INFLUX_HOST to your cloud IP and set other cloud credentials
+- For e-mail alerts, set GF_SMTP e-mail + password in .env file and set GF_SMTP_ENABLED=true
+- Set ALERT_EMAIL_RECIPIENT
 
 ## ▶️ Starting the project
 

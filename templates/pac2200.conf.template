@@ -1,0 +1,447 @@
+[global_tags]
+  location = "${SITE_ID}"
+
+[agent]
+  interval = "${POLL_INTERVAL_INST}"
+  flush_interval = "5s"
+  hostname = "telegraf"
+
+##################################################
+# Instantaneous values (INST)
+##################################################
+[[inputs.http]]
+  interval = "${POLL_INTERVAL_INST}"
+  timeout = "10s"
+  urls = ["${METER_URL}INST"]
+  data_format = "json_v2"
+
+  [[inputs.http.json_v2]]
+    measurement_name = "meter_inst"
+    timestamp_path = "INST_VALUES.LOCAL_TIME"
+    timestamp_format = "RFC3339"
+    timestamp_timezone = "Europe/Berlin"
+
+    # Voltage
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.V_L1.value"
+      type = "float"
+      rename = "voltage_phase_1"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.V_L2.value"
+      type = "float"
+      rename = "voltage_phase_2"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.V_L3.value"
+      type = "float"
+      rename = "voltage_phase_3"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.V_L12.value"
+      type = "float"
+      rename = "voltage_line_12"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.V_L23.value"
+      type = "float"
+      rename = "voltage_line_23"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.V_L31.value"
+      type = "float"
+      rename = "voltage_line_31"
+
+    # Current
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.I_L1.value"
+      type = "float"
+      rename = "current_phase_1"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.I_L2.value"
+      type = "float"
+      rename = "current_phase_2"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.I_L3.value"
+      type = "float"
+      rename = "current_phase_3"
+
+    # Active Power
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.P_L1.value"
+      type = "float"
+      rename = "active_power_phase_1"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.P_L2.value"
+      type = "float"
+      rename = "active_power_phase_2"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.P_L3.value"
+      type = "float"
+      rename = "active_power_phase_3"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.P_SUM.value"
+      type = "float"
+      rename = "active_power_total"
+
+    # Apparent Power
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.VA_L1.value"
+      type = "float"
+      rename = "apparent_power_phase_1"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.VA_L2.value"
+      type = "float"
+      rename = "apparent_power_phase_2"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.VA_L3.value"
+      type = "float"
+      rename = "apparent_power_phase_3"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.VA_SUM.value"
+      type = "float"
+      rename = "apparent_power_total"
+
+    # Reactive Power Q1
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.VARQ1_L1.value"
+      type = "float"
+      rename = "reactive_power_q1_phase_1"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.VARQ1_L2.value"
+      type = "float"
+      rename = "reactive_power_q1_phase_2"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.VARQ1_L3.value"
+      type = "float"
+      rename = "reactive_power_q1_phase_3"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.VARQ1_SUM.value"
+      type = "float"
+      rename = "reactive_power_q1_total"
+
+    # Power Factor
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.PF_L1.value"
+      type = "float"
+      rename = "power_factor_phase_1"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.PF_L2.value"
+      type = "float"
+      rename = "power_factor_phase_2"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.PF_L3.value"
+      type = "float"
+      rename = "power_factor_phase_3"
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.PF_SUM.value"
+      type = "float"
+      rename = "power_factor_total"
+
+    # Frequency
+    [[inputs.http.json_v2.field]]
+      path = "INST_VALUES.FREQ.value"
+      type = "float"
+      rename = "frequency"
+
+##################################################
+# Average Stage 1 (AVG1) - 10s 
+##################################################
+[[inputs.http]]
+  interval = "10s"
+  timeout = "10s"
+  urls = ["${METER_URL}AVG1"]
+  data_format = "json_v2"
+
+  [[inputs.http.json_v2]]
+    measurement_name = "meter_10sec_avg"
+    timestamp_path = "AVERAGE_VALUES.LOCAL_TIME"
+    timestamp_format = "RFC3339"
+    timestamp_timezone = "Europe/Berlin"
+
+    # Fields like INST, with "_10sec_avg" suffix
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.V_L1.value"
+      type = "float"
+      rename = "voltage_phase_1_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.V_L2.value"
+      type = "float"
+      rename = "voltage_phase_2_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.V_L3.value"
+      type = "float"
+      rename = "voltage_phase_3_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.V_L12.value"
+      type = "float"
+      rename = "voltage_line_12_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.V_L23.value"
+      type = "float"
+      rename = "voltage_line_23_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.V_L31.value"
+      type = "float"
+      rename = "voltage_line_31_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.I_L1.value"
+      type = "float"
+      rename = "current_phase_1_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.I_L2.value"
+      type = "float"
+      rename = "current_phase_2_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.I_L3.value"
+      type = "float"
+      rename = "current_phase_3_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.P_L1.value"
+      type = "float"
+      rename = "active_power_phase_1_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.P_L2.value"
+      type = "float"
+      rename = "active_power_phase_2_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.P_L3.value"
+      type = "float"
+      rename = "active_power_phase_3_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.P_SUM.value"
+      type = "float"
+      rename = "active_power_total_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.VA_L1.value"
+      type = "float"
+      rename = "apparent_power_phase_1_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.VA_L2.value"
+      type = "float"
+      rename = "apparent_power_phase_2_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.VA_L3.value"
+      type = "float"
+      rename = "apparent_power_phase_3_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.VA_SUM.value"
+      type = "float"
+      rename = "apparent_power_total_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.VARQ1_L1.value"
+      type = "float"
+      rename = "reactive_power_q1_phase_1_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.VARQ1_L2.value"
+      type = "float"
+      rename = "reactive_power_q1_phase_2_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.VARQ1_L3.value"
+      type = "float"
+      rename = "reactive_power_q1_phase_3_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.VARQ1_SUM.value"
+      type = "float"
+      rename = "reactive_power_q1_total_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.PF_L1.value"
+      type = "float"
+      rename = "power_factor_phase_1_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.PF_L2.value"
+      type = "float"
+      rename = "power_factor_phase_2_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.PF_L3.value"
+      type = "float"
+      rename = "power_factor_phase_3_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.PF_SUM.value"
+      type = "float"
+      rename = "power_factor_total_10sec_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE1.FREQ.value"
+      type = "float"
+      rename = "frequency_10sec_avg"
+
+##################################################
+# Average Stage 2 (AVG2) - 15m
+##################################################
+[[inputs.http]]
+  interval = "900s"
+  timeout = "30s"
+  urls = ["${METER_URL}AVG2"]
+  data_format = "json_v2"
+
+  [[inputs.http.json_v2]]
+    measurement_name = "meter_15min_avg"
+    timestamp_path = "AVERAGE_VALUES.LOCAL_TIME"
+    timestamp_format = "RFC3339"
+    timestamp_timezone = "Europe/Berlin"
+
+    # Fields like Stage1, with "_15min_avg" suffix
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.V_L1.value"
+      type = "float"
+      rename = "voltage_phase_1_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.V_L2.value"
+      type = "float"
+      rename = "voltage_phase_2_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.V_L3.value"
+      type = "float"
+      rename = "voltage_phase_3_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.V_L12.value"
+      type = "float"
+      rename = "voltage_line_12_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.V_L23.value"
+      type = "float"
+      rename = "voltage_line_23_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.V_L31.value"
+      type = "float"
+      rename = "voltage_line_31_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.I_L1.value"
+      type = "float"
+      rename = "current_phase_1_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.I_L2.value"
+      type = "float"
+      rename = "current_phase_2_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.I_L3.value"
+      type = "float"
+      rename = "current_phase_3_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.P_L1.value"
+      type = "float"
+      rename = "active_power_phase_1_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.P_L2.value"
+      type = "float"
+      rename = "active_power_phase_2_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.P_L3.value"
+      type = "float"
+      rename = "active_power_phase_3_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.P_SUM.value"
+      type = "float"
+      rename = "active_power_total_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.VA_L1.value"
+      type = "float"
+      rename = "apparent_power_phase_1_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.VA_L2.value"
+      type = "float"
+      rename = "apparent_power_phase_2_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.VA_L3.value"
+      type = "float"
+      rename = "apparent_power_phase_3_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.VA_SUM.value"
+      type = "float"
+      rename = "apparent_power_total_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.VARQ1_L1.value"
+      type = "float"
+      rename = "reactive_power_q1_phase_1_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.VARQ1_L2.value"
+      type = "float"
+      rename = "reactive_power_q1_phase_2_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.VARQ1_L3.value"
+      type = "float"
+      rename = "reactive_power_q1_phase_3_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.VARQ1_SUM.value"
+      type = "float"
+      rename = "reactive_power_q1_total_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.PF_L1.value"
+      type = "float"
+      rename = "power_factor_phase_1_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.PF_L2.value"
+      type = "float"
+      rename = "power_factor_phase_2_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.PF_L3.value"
+      type = "float"
+      rename = "power_factor_phase_3_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.PF_SUM.value"
+      type = "float"
+      rename = "power_factor_total_15min_avg"
+    [[inputs.http.json_v2.field]]
+      path = "AVERAGE_VALUES.STAGE2.FREQ.value"
+      type = "float"
+      rename = "frequency_15min_avg"
+
+##################################################
+# Counter values - instantaneous values
+##################################################
+[[inputs.http]]
+  interval = "5s"
+  timeout = "10s"
+  urls = ["${METER_URL}COUNTER"]
+  data_format = "json_v2"
+
+  [[inputs.http.json_v2]]
+    measurement_name = "meter_counter"
+    timestamp_path = "COUNTER.LOCAL_TIME"
+    timestamp_format = "RFC3339"
+    timestamp_timezone = "Europe/Berlin"
+
+    [[inputs.http.json_v2.field]]
+      path = "COUNTER.ACTIVE_ENERGY.IMPORT.T1.L1"
+      type = "float"
+      rename = "energy_active_import_phase_1"
+    [[inputs.http.json_v2.field]]
+      path = "COUNTER.ACTIVE_ENERGY.IMPORT.T1.L2"
+      type = "float"
+      rename = "energy_active_import_phase_2"
+    [[inputs.http.json_v2.field]]
+      path = "COUNTER.ACTIVE_ENERGY.IMPORT.T1.L3"
+      type = "float"
+      rename = "energy_active_import_phase_3"
+    [[inputs.http.json_v2.field]]
+      path = "COUNTER.ACTIVE_ENERGY.IMPORT.T1.total"
+      type = "float"
+      rename = "energy_active_import_total"
+
+##################################################
+# Outputs
+##################################################
+
+# Local InfluxDB
+[[outputs.influxdb_v2]]
+  urls = ["${INFLUXDB_URL}:${INFLUXDB_PORT}"]
+  token = "${INFLUXDB_TOKEN}"
+  organization = "${INFLUXDB_ORG}"
+  bucket = "${INFLUXDB_BUCKET}"
+
+# Cloud InfluxDB
+
+[[outputs.influxdb_v2]]
+  urls = ["${CLOUD_INFLUX_PROTOCOL}://${CLOUD_INFLUX_HOST}:${CLOUD_INFLUX_PORT}"]
+  token = "${CLOUD_INFLUX_TOKEN}"
+  organization = "${CLOUD_INFLUX_ORG}"
+  bucket = "${CLOUD_INFLUX_BUCKET}"
+  flush_interval = "${CLOUD_FLUSH_INTERVAL}"
+  timeout = "30s"
+  namepass = ["meter_inst", "meter_counter"]
+  # Forward only main metrics to cloud db
+  fieldpass = [
+    "active_power_total",
+    "energy_active_import_total",
+    "voltage_phase_1",
+    "voltage_phase_2",
+    "voltage_phase_3",
+    "current_phase_1",
+    "current_phase_2",
+    "current_phase_3",
+  ]
