@@ -5,19 +5,19 @@
 $ErrorActionPreference = "Stop"
 
 # Render influxdb.yaml from template using .env
-./render_influxdb_yaml.ps1
+./scripts/render_influxdb_yaml.ps1
 
 # Render contact-points.yaml from template using .env
-./render_contact_points_yaml.ps1
+./scripts/render_contact_points_yaml.ps1
 
 # Render power_imbalance_rule.yaml from template using .env
-./render_power_imbalance_rule.ps1
+./scripts/render_power_imbalance_rule.ps1
 
 # Render power_sum_max_rule.yaml from template using .env
-./render_power_sum_max_rule.ps1
+./scripts/render_power_sum_max_rule.ps1
 
 # Render telegraf.conf from template using .env
-./render_telegraf.conf.template.ps1
+./scripts/render_telegraf.conf.template.ps1
 
 # Start docker compose with any arguments passed to this script
 docker compose up @Args
