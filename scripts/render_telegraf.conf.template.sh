@@ -12,4 +12,5 @@ TEMPLATE="templates/telegraf.conf.template"
 TARGET="telegraf/telegraf.conf"
 
 # replace placeholders in template with environment variables
+mkdir -p "$(dirname "$TARGET")"
 envsubst < "$TEMPLATE" > "$TARGET"
