@@ -22,18 +22,21 @@ Automated collection and storage of measurement data from a PAC2200 device into 
 
 ---
 
-## ⚡️ BEFORE STARTING FOR THE FIRST TIME
+## BEFORE STARTING FOR THE FIRST TIME
 
 - Rename default.env to .env (Will be ignored by git afterwards due to .gitignore)
 - Set SITE_ID (mandatory for cloud usage and to determine which site the e-mail alert is being fired from)
 - Set METER_TYPE to your local electric meter type, e.g. pac2200 or janitza
 - Set METER_URL to your local electric meter URL
 - Change all other login credentials in .env
+
+## CLOUD USAGE
+
 - For cloud usage, set CLOUD_INFLUX_HOST to your cloud IP and set other cloud credentials
 - For e-mail alerts, set GF_SMTP e-mail + password in .env file and set GF_SMTP_ENABLED=true
 - Set ALERT_EMAIL_RECIPIENT
 
-## ▶️ Starting the project
+## Starting the project
 
 ```bash
 # To start in Windows Powershell:
@@ -54,7 +57,7 @@ localhost:4300
 ```
 
 
-## ⏹️ Stopping the project
+## Stopping the project
 
 ```bash
 # To stop docker just run:
@@ -62,9 +65,3 @@ docker-compose down
 # or 
 docker compose down
 ```
-
-## To handle problems pulling updates from the git
-
-sudo chown -R $USER:$USER ~/pac2200-monitoring
-rm default.env
-git pull
