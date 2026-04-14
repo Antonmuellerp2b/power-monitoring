@@ -217,7 +217,7 @@
   bucket = "${CLOUD_INFLUX_BUCKET}"
   flush_interval = "${CLOUD_FLUSH_INTERVAL}"
   timeout = "30s"
-  namepass = ["meter_fast", "meter_fast"]
+  namepass = ["meter_fast"]
   # Forward only main metrics to cloud db
   fieldpass = [
     "active_power_total",
