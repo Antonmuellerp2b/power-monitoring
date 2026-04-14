@@ -148,27 +148,6 @@ def apply(metric):
     return metric
 '''
 
-# Reactive Power var -> kVAr
-[[processors.starlark]]
-  source = '''
-def apply(metric):
-    for f in ["reactive_power_q1_phase_1","reactive_power_q1_phase_2","reactive_power_q1_phase_3","reactive_power_q1_total",
-              "reactive_power_q1_phase_1_15min_avg","reactive_power_q1_phase_2_15min_avg","reactive_power_q1_phase_3_15min_avg","reactive_power_q1_total_15min_avg"]:
-        if f in metric.fields:
-            metric.fields[f] /= 1000.0
-    return metric
-'''
-
-# Energy Wh -> kWh
-[[processors.starlark]]
-  source = '''
-def apply(metric):
-    for f in ["energy_active_import_phase_1","energy_active_import_phase_2","energy_active_import_phase_3","energy_active_import_total"]:
-        if f in metric.fields:
-            metric.fields[f] /= 1000.0
-    return metric
-'''
-
 ##################################################
 # Aggregator: 10s average (AVG1) - values are aggregated by telegraf. 
 # 10s averages are shifted by 5s, they represent the average of the two previous values

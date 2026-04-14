@@ -15,7 +15,6 @@
   name = "pac2200"
   name_override = "meter_fast"
   slave_id = 1
-  interval = "10s"
   timeout = "10s"
   controller = "tcp://${METER_URL}:502"
   configuration_type = "request"
@@ -73,12 +72,28 @@
       { address = 69, name = "power_factor_total", type = "FLOAT32" },
 
       # Frequency
-      { address = 55, name = "frequency", type = "FLOAT32" },
+      { address = 55, name = "frequency", type = "FLOAT32" }
+    ]
 
-      ##################################################
+
+##################################################
       # 10-second-average values (AVG1)
-      ##################################################
+##################################################
+[[inputs.modbus]]
+  name = "pac2200"
+  name_override = "meter_fast"
+  slave_id = 1
+  timeout = "10s"
+  interval = "10s"
+  controller = "tcp://${METER_URL}:502"
+  configuration_type = "request"
+  transmission_mode = "TCP"
 
+  [[inputs.modbus.request]]
+    slave_id = 1
+    byte_order = "ABCD"
+    register = "holding"
+    fields = [      
       # Voltage L-N
       { address = 30005, name = "voltage_phase_1_10sec_avg", type = "FLOAT32" },
       { address = 30007, name = "voltage_phase_2_10sec_avg", type = "FLOAT32" },
@@ -121,6 +136,7 @@
       # Frequency
       { address = 30047, name = "frequency_10sec_avg", type = "FLOAT32" }
     ]
+
 
 ##################################################
 # 15-minute average values (AVG2)
@@ -195,25 +211,3 @@
   bucket = "${INFLUXDB_BUCKET}"
 
 
-##################################################
-# Cloud InfluxDB
-##################################################
-[[outputs.influxdb_v2]]
-  urls = ["${CLOUD_INFLUX_PROTOCOL}://${CLOUD_INFLUX_HOST}:${CLOUD_INFLUX_PORT}"]
-  token = "${CLOUD_INFLUX_TOKEN}"
-  organization = "${CLOUD_INFLUX_ORG}"
-  bucket = "${CLOUD_INFLUX_BUCKET}"
-  flush_interval = "${CLOUD_FLUSH_INTERVAL}"
-  timeout = "30s"
-  namepass = ["meter_fast", "meter_fast"]
-  # Forward only main metrics to cloud db
-  fieldpass = [
-    "active_power_total",
-    "energy_active_import_total",
-    "voltage_phase_1",
-    "voltage_phase_2",
-    "voltage_phase_3",
-    "current_phase_1",
-    "current_phase_2",
-    "current_phase_3",
-  ]

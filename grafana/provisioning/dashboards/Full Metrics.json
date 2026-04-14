@@ -790,7 +790,7 @@
               }
             ]
           },
-          "unit": "kvoltampreact"
+          "unit": "voltampreact"
         },
         "overrides": []
       },
@@ -878,7 +878,7 @@
               }
             ]
           },
-          "unit": "kvoltampreact"
+          "unit": "voltampreact"
         },
         "overrides": []
       },
@@ -973,7 +973,7 @@
               }
             ]
           },
-          "unit": "kvoltampreact"
+          "unit": "voltampreact"
         },
         "overrides": []
       },
@@ -1061,7 +1061,7 @@
               }
             ]
           },
-          "unit": "kvoltampreact"
+          "unit": "voltampreact"
         },
         "overrides": []
       },
@@ -1149,7 +1149,7 @@
               }
             ]
           },
-          "unit": "kvoltampreact"
+          "unit": "voltampreact"
         },
         "overrides": []
       },
@@ -1244,7 +1244,7 @@
               }
             ]
           },
-          "unit": "kvoltampreact"
+          "unit": "voltampreact"
         },
         "overrides": [
           {
