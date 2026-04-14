@@ -21,7 +21,7 @@ groups:
                 from(bucket: "pac2200")
                   |> range(start: -5m)
                   |> filter(fn: (r) =>
-                    r._measurement == "meter_inst" and
+                    r._measurement == "meter_fast" and
                     contains(value: r._field, set: ["active_power_total"])
                   )
           - refId: Last_Power_Value

@@ -15,7 +15,7 @@
 ##################################################
 [[inputs.modbus]]
   name = "janitza_umg96pa"
-  name_override = "meter_inst"
+  name_override = "meter_fast"
   slave_id = 1
   timeout = "5s"
   controller = "tcp://${METER_URL}:502"
@@ -26,6 +26,12 @@
     byte_order = "ABCD"
     register = "holding"
     fields = [
+      # Energy
+      { address = 19054, name = "energy_active_import_phase_1", type = "FLOAT32" },
+      { address = 19056, name = "energy_active_import_phase_2", type = "FLOAT32" },
+      { address = 19058, name = "energy_active_import_phase_3", type = "FLOAT32" },
+      { address = 19060, name = "energy_active_import_total", type = "FLOAT32" },
+
       # Voltage L-N
       { address = 19000, name = "voltage_phase_1", type = "FLOAT32" },
       { address = 19002, name = "voltage_phase_2", type = "FLOAT32" },
@@ -69,33 +75,11 @@
     ]
 
 ##################################################
-# Energy Counters - read from Janitza modbus register
-##################################################
-[[inputs.modbus]]
-  name = "janitza_umg96pa"
-  name_override = "meter_counter"
-  slave_id = 1
-  timeout = "5s"
-  controller = "tcp://${METER_URL}:502"
-  configuration_type = "request"
-
-  [[inputs.modbus.request]]
-    slave_id = 1
-    byte_order = "ABCD"
-    register = "holding"
-    fields = [
-      { address = 19054, name = "energy_active_import_phase_1", type = "FLOAT32" },
-      { address = 19056, name = "energy_active_import_phase_2", type = "FLOAT32" },
-      { address = 19058, name = "energy_active_import_phase_3", type = "FLOAT32" },
-      { address = 19060, name = "energy_active_import_total", type = "FLOAT32" }
-    ]
-
-##################################################
 # 15-minute average values (AVG2) - read from Janitza modbus register
 ##################################################
 [[inputs.modbus]]
   name = "janitza_umg96pa"
-  name_override = "meter_15min_avg"
+  name_override = "meter_slow"
   slave_id = 1
   timeout = "5s"
   interval = "60s"
@@ -194,7 +178,7 @@ def apply(metric):
   period = "10s"
   drop_original = false
   stats = ["mean"]
-  namepass = ["meter_inst"]
+  namepass = ["meter_fast"]
   fieldpass = ["active_power_total", "active_power_phase_1", "active_power_phase_2", "active_power_phase_3",
                "apparent_power_total", "apparent_power_phase_1", "apparent_power_phase_2", "apparent_power_phase_3",
                "reactive_power_q1_total", "reactive_power_q1_phase_1", "reactive_power_q1_phase_2", "reactive_power_q1_phase_3",
@@ -203,13 +187,13 @@ def apply(metric):
                "current_phase_1","current_phase_2","current_phase_3",
                "power_factor_phase_1","power_factor_phase_2","power_factor_phase_3","power_factor_total",
                "frequency"]
-  name_override = "meter_10sec_avg"
+  name_override = "meter_fast"
 
 ##################################################
 # Rename mean fields -> *_10sec_avg
 ##################################################
 [[processors.rename]]
-  namepass = ["meter_10sec_avg"]
+  namepass = ["meter_fast"]
   [[processors.rename.replace]]
     field = "active_power_total_mean"
     dest = "active_power_total_10sec_avg"
@@ -307,7 +291,7 @@ def apply(metric):
   bucket = "${CLOUD_INFLUX_BUCKET}"
   flush_interval = "${CLOUD_FLUSH_INTERVAL}"
   timeout = "30s"
-  namepass = ["meter_inst", "meter_counter"]
+  namepass = ["meter_fast", "meter_fast"]
   # Forward only main metrics to cloud db
   fieldpass = [
     "active_power_total",
