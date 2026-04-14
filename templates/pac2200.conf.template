@@ -147,7 +147,7 @@
   name_override = "meter_slow"
   slave_id = 1
   timeout = "20s"
-  interval = "60s"
+  interval = "900s"
   controller = "tcp://${METER_URL}:502"
   configuration_type = "request"
   transmission_mode = "TCP"
