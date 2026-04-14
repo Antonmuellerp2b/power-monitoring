@@ -76,7 +76,7 @@
               }
             ]
           },
-          "unit": "kwatth"
+          "unit": "watth"
         },
         "overrides": []
       },
@@ -165,7 +165,7 @@
               }
             ]
           },
-          "unit": "kwatth"
+          "unit": "watth"
         },
         "overrides": []
       },
@@ -1348,7 +1348,7 @@
               }
             ]
           },
-          "unit": "kvoltamp"
+          "unit": "voltamp"
         },
         "overrides": []
       },
@@ -1436,7 +1436,7 @@
               }
             ]
           },
-          "unit": "kvoltamp"
+          "unit": "voltamp"
         },
         "overrides": []
       },
@@ -1531,7 +1531,7 @@
               }
             ]
           },
-          "unit": "kvoltamp"
+          "unit": "voltamp"
         },
         "overrides": []
       },
@@ -1619,7 +1619,7 @@
               }
             ]
           },
-          "unit": "kvoltamp"
+          "unit": "voltamp"
         },
         "overrides": []
       },
@@ -1707,7 +1707,7 @@
               }
             ]
           },
-          "unit": "kvoltamp"
+          "unit": "voltamp"
         },
         "overrides": []
       },
@@ -1802,7 +1802,7 @@
               }
             ]
           },
-          "unit": "kvoltamp"
+          "unit": "voltamp"
         },
         "overrides": []
       },
@@ -2434,7 +2434,7 @@
               }
             ]
           },
-          "unit": "kwatt"
+          "unit": "watt"
         },
         "overrides": []
       },
@@ -2522,7 +2522,7 @@
               }
             ]
           },
-          "unit": "kwatt"
+          "unit": "watt"
         },
         "overrides": []
       },
@@ -2617,7 +2617,7 @@
               }
             ]
           },
-          "unit": "kwatt"
+          "unit": "watt"
         },
         "overrides": []
       },
@@ -2705,7 +2705,7 @@
               }
             ]
           },
-          "unit": "kwatt"
+          "unit": "watt"
         },
         "overrides": []
       },
@@ -2793,7 +2793,7 @@
               }
             ]
           },
-          "unit": "kwatt"
+          "unit": "watt"
         },
         "overrides": []
       },
@@ -2888,7 +2888,7 @@
               }
             ]
           },
-          "unit": "kwatt"
+          "unit": "watt"
         },
         "overrides": []
       },

@@ -26,12 +26,6 @@
     byte_order = "ABCD"
     register = "holding"
     fields = [
-      # Energy
-      { address = 19054, name = "energy_active_import_phase_1", type = "FLOAT32" },
-      { address = 19056, name = "energy_active_import_phase_2", type = "FLOAT32" },
-      { address = 19058, name = "energy_active_import_phase_3", type = "FLOAT32" },
-      { address = 19060, name = "energy_active_import_total", type = "FLOAT32" },
-
       # Voltage L-N
       { address = 19000, name = "voltage_phase_1", type = "FLOAT32" },
       { address = 19002, name = "voltage_phase_2", type = "FLOAT32" },
@@ -46,7 +40,6 @@
       { address = 19012, name = "current_phase_1", type = "FLOAT32" },
       { address = 19014, name = "current_phase_2", type = "FLOAT32" },
       { address = 19016, name = "current_phase_3", type = "FLOAT32" },
-      { address = 19018, name = "current_total", type = "FLOAT32" },
 
       # Active Power
       { address = 19020, name = "active_power_phase_1", type = "FLOAT32" },
@@ -168,28 +161,6 @@ def apply(metric):
         P = metric.fields["active_power_total"]
         if S != 0:
             metric.fields["power_factor_total"] = P / S
-    return metric
-'''
-
-# Active Power W -> kW
-[[processors.starlark]]
-  source = '''
-def apply(metric):
-    for f in ["active_power_phase_1","active_power_phase_2","active_power_phase_3","active_power_total",
-              "active_power_phase_1_15min_avg","active_power_phase_2_15min_avg","active_power_phase_3_15min_avg","active_power_total_15min_avg"]:
-        if f in metric.fields:
-            metric.fields[f] /= 1000.0
-    return metric
-'''
-
-# Apparent Power VA -> kVA
-[[processors.starlark]]
-  source = '''
-def apply(metric):
-    for f in ["apparent_power_phase_1","apparent_power_phase_2","apparent_power_phase_3","apparent_power_total",
-              "apparent_power_phase_1_15min_avg","apparent_power_phase_2_15min_avg","apparent_power_phase_3_15min_avg","apparent_power_total_15min_avg"]:
-        if f in metric.fields:
-            metric.fields[f] /= 1000.0
     return metric
 '''
 
